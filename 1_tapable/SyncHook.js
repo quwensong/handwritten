@@ -1,4 +1,18 @@
 const Hook = require("./Hook");
+const HookCodeFactory = require("./HookCodeFactory");
+
+class SyncHookCodeFactory extends HookCodeFactory {
+  // 关于 content 方法 你可以先忽略它
+  content({ onError, onDone, rethrowIfPossible }) {
+    return this.callTapsSeries({
+      onError: (i, err) => onError(err),
+      onDone,
+      rethrowIfPossible,
+    });
+  }
+}
+
+const factory = new SyncHookCodeFactory();
 
 const TAP_ASYNC = () => {
   throw new Error("tapAsync is not supported on a SyncHook");
@@ -7,6 +21,17 @@ const TAP_ASYNC = () => {
 const TAP_PROMISE = () => {
   throw new Error("tapPromise is not supported on a SyncHook");
 };
+
+/**
+ * 调用栈 this.call() -> CALL_DELEGATE() -> this._createCall() -> this.compile() -> COMPILE()
+ * @param {*} options
+ * @returns
+ */
+function COMPILE(options) {
+  factory.setup(this, options);
+  return factory.create(options);
+}
+
 /**
  * 所以这里当我们进行 new SyncHook 时
 首先通过 new Hook(args, name) 创建了基础的 hook 实例对象。
