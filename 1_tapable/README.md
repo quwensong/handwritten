@@ -14,4 +14,5 @@ HookCodeFactory 类，负责根据内容编译最终需啊哟通过 hook 调用�
 同时创建一个 HookCodeFactory.js 作为生成最终需要执行的函数的文件。
 
 
-参考掘金链接：https://juejin.cn/post/7040982789650382855#heading-21
+参考掘金链接：https://juejin.cn/post/7040982789650382855
+走进Tapable：https://juejin.cn/post/7074401296047931423
