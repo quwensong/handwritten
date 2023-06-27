@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --env development --config webpack.common.js",
-    "build:pord": "webpack --env production --config webpack.common.js",
-    "build:dev": "webpack --env development --config webpack.common.js"
+    "build:pord": "webpack --env production --config webpack.common.js"
   },
   "keywords": [],
   "author": "",
