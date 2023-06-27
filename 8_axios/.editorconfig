@@ -1,0 +1,13 @@
+root = true // 根级配置
+
+
+[*] // 指定作用于所有文件
+end_of_line = lf // 定义换行符 [lf | cr | crlf]
+insert_final_newline = true // 文件是否以一个空白行结尾
+
+[*.{js,html,css}] // 作用文件
+charset = utf-8 // 编码格式
+
+[*.js] // 作用文件
+indent_style = space // 缩进类型
+indent_size = 2 // 缩进大小

@@ -32,7 +32,7 @@ const commonConfig = {
 
 module.exports = (env) => {
   // 根据执行命令判断开发环境or生产环境，启用不同的配置文件
-  if (env && env.production) {
+  if (env === "production") {
     return merge(commonConfig, prodConfig);
   } else {
     return merge(commonConfig, devConfig);

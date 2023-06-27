@@ -1,3 +1,1 @@
-
-
-console.log('00')
+class Axios {}
