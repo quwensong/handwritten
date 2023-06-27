@@ -14,7 +14,7 @@ export const createRoute = (record,location) => {
   }
   // {path: '/', matched:[]}
 }
-// 希望current变化了可以更新视图
+
 export default class History {
     constructor(router){
       this.router = router;
@@ -24,7 +24,12 @@ export default class History {
       }) // this.currentRoute = {path: '/', matched:[]}
     
     }
-    // 路径变化就会自动调用这个方法
+    /**
+     * 路径变化就会自动调用这个方法
+     * @param {*} location 跳转地址location
+     * @param {*} complete 成功回调onComplete 
+     * @returns 
+     */
     transitonTo(location,complete){
       // NOTE: 通过路径拿到对应的记录，有了记录以后就可以找到对应的匹配
       const current = this.router.match(location)
@@ -45,4 +50,19 @@ export default class History {
     listen(cb){
       this.cb = cb
     }
+
+    /**
+     *
+     * 所以cb(route)，就是重新对vm._route进行赋值。../index.js  40行
+     * 
+     * history.listen(route => {
+      this.apps.forEach((app) => {
+        app._route = route
+      })
+    })
+
+    */
+
+
+    
 }

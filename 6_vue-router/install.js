@@ -21,7 +21,13 @@ const install = function(_Vue){
                 // 当前用户的router属性
                 this._router.init(this)
                 // 给当前Vue实例上面添加一个响应式对象 _route
-                // 如果用户更改了current 是没有效果的，需要把 _route 也进行更新
+                // 创建响应式的_route属性，将来_route变化的时候，通知订阅的组件重新render
+                /** 
+                 * 那么_route的依赖是什么时候收集的呢。install中将$route定义为this._routerRoot._route，this._routerRoot=this。
+                 * 那么访问$route就是访问_route。
+                 * 而Vue Router使用时需要用router-view包裹下组件，router-view的render函数中引用了这个$route，
+                 * 所以会在渲染router-view时进行依赖收集。
+                */
                 Vue.util.defineReactive(this,'_route',this._router.history.current)
 
             }else{
