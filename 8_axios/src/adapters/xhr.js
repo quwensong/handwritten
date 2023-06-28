@@ -1,5 +1,7 @@
 import { parseHeaders } from "../helpers/headers";
-// import { createError } from "../core/error";
+import { isURLSameOrigin } from "../helpers/url";
+import { createError } from "../core/error";
+import cookie from "../helpers/cookie";
 
 export default function xhrAdapter(config) {
   return new Promise((resolve, reject) => {
@@ -11,6 +13,8 @@ export default function xhrAdapter(config) {
       headers = {},
       responseType,
       timeout,
+      withCredentials,
+      cancelToken,
     } = config;
 
     // 创建 xhr 对象
@@ -23,6 +27,23 @@ export default function xhrAdapter(config) {
     // 判断是否有超时的配置，如果有则给request添加超时属性
     if (timeout) {
       request.timeout = timeout;
+    }
+    // 设置 xhr 对象的 withCredentials 属性即可
+    /**
+     * 在同域情况下，发送请求会默认携带当前域下的 cookie，但是跨域的情况下，默认是不会携带请求域下的 cookie，如果想携带，只需要设置请求的 xhr 对象的 withCredentials 为 true 即可。
+     */
+    if (withCredentials) {
+      request.withCredentials = withCredentials;
+    }
+
+    // 判断如果是配置 withCredentials 为 true，或者是同域请求并且 xsrfCookieName 存在
+    // 才会在请求 headers 添加 xsrf 相关字段。
+    if ((withCredentials || isURLSameOrigin(url)) && xsrfCookieName) {
+      // 通过cookie 去读取对应的 xsrfHeaderName 值
+      const xsrfValue = cookie.read(xsrfCookieName);
+      if (xsrfValue && xsrfHeaderName) {
+        headers[xsrfHeaderName] = xsrfValue;
+      }
     }
 
     // 打开一个请求
@@ -83,15 +104,26 @@ export default function xhrAdapter(config) {
     };
 
     // 遍历所有处理后的 headers
+    console.log(headers);
     Object.keys(headers).forEach((name) => {
       // 如果 data 为空的话，则删除 content-type
       if (data === null && name.toLowerCase() === "content-type") {
         delete headers[name];
       } else {
         // 给请求设置上 header
-        request.setRequestHeader(name, headers[name]);
+        request.setRequestHeader(name, JSON.stringify(headers[name]));
       }
     });
+
+    if (cancelToken) {
+      cancelToken.promise
+        .then((reason) => {
+          request.abort();
+          reject(reason);
+        })
+        .catch(() => {});
+    }
+
     request.send(data);
   });
 }

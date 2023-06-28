@@ -5,7 +5,6 @@ import xhrAdapter  from "../adapters/xhr"
 import httpAdapter  from "../adapters/http"
 
 
-console.log(xhrAdapter);
 /**
  * 将 url 和 params 拼接成一个完整的 url
  * @param {*} config
@@ -68,7 +67,6 @@ const getDefaultAdapter = () => {
     // 浏览器
     adapter = xhrAdapter;
 
-    console.log(adapter);
   } else if (
     typeof process !== "undefined" &&
     Object.prototype.toString.call(process) === "[object process]"

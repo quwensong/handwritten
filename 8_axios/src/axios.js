@@ -1,5 +1,9 @@
 import Axios from "./core/Axios";
 import { extend } from "./helpers/util";
+import defaults from "./defaults";
+import mergeConfig from "./core/mergeConfig";
+import CancelToken from "./cancel/CancelToken";
+import Cancel, { isCancel } from "./cancel/Cancel";
 
 function createInstance(config) {
   // 实例化一个 Axios 类
@@ -14,19 +18,14 @@ function createInstance(config) {
   return instance;
 }
 
-// 默认参数对象，如果用户不传入 method，则默认为 git
-const defaults = {
-  method: "get",
-};
-
 const axios = createInstance(defaults);
 
-axios.create = function () {
-  // 合并默认配置与用户传入的配置，并作为 createInstance 的参数参入，
-  // 目前合并config未实现。因此直接传了 default 去创建实例。
-  // const initConfig = mergeConfig(config,defaults);
-  return createInstance(defaults);
+axios.create = function (config) {
+  return createInstance(mergeConfig(defaults, config));
 };
+axios.CancelToken = CancelToken;
+axios.Cancel = Cancel;
+axios.isCancel = isCancel;
 
 axios({
   method: "post",

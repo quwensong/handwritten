@@ -12,6 +12,7 @@ commitlint ， git commit message 规范。
     └──core // 核心文件夹
         └──Axios.js // 存放 Axios 类
         └──dispatchRequest.js // 触发请求
+        └──InterceptorManager.js // 拦截器
     └──adapters // 适配器文件夹，axios 可以适配 node 中的 http，浏览器中的 xhr
         └──xhr.js // 浏览器 xhr 请求
         └──http.js // node http 请求，目前暂未实现

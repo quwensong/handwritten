@@ -128,3 +128,24 @@ export const buildURL = (url, params) => {
   // 输出完整的 URL
   return url;
 };
+
+const urlParsingNode = document.createElement("a");
+const currentOrigin = resolveURL(window.location.href);
+
+function resolveURL(url) {
+  urlParsingNode.setAttribute("href", url);
+  const { protocol, host } = urlParsingNode;
+
+  return {
+    protocol,
+    host,
+  };
+}
+
+export function isURLSameOrigin(requestURL) {
+  const parsedOrigin = resolveURL(requestURL);
+  return (
+    parsedOrigin.protocol === currentOrigin.protocol &&
+    parsedOrigin.host === currentOrigin.host
+  );
+}
