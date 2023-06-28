@@ -17,7 +17,7 @@ export const normalizeHeaderName = (headers, normalizedName) => {
     }
   });
 };
-
+  
 export const processHeaders = (headers, data) => {
   normalizeHeaderName(headers, "Content-Type");
   // 判断如果data数据是一个对象，则设置上'Content-Type'

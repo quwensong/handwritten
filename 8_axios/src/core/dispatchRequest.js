@@ -1,7 +1,11 @@
 import { buildURL } from "../helpers/url";
 import { processHeaders } from "../helpers/headers";
 import { transformRequest, transformResponse } from "../helpers/data";
+import xhrAdapter  from "../adapters/xhr"
+import httpAdapter  from "../adapters/http"
 
+
+console.log(xhrAdapter);
 /**
  * 将 url 和 params 拼接成一个完整的 url
  * @param {*} config
@@ -28,7 +32,9 @@ const transformHeaders = (config) => {
  * @returns
  */
 const transformRequestData = (config) => {
-  return transformRequest(config.data);
+  const { data = {} } = config;
+
+  return transformRequest(data);
 };
 
 /**
@@ -54,19 +60,21 @@ const transformResponseData = (res) => {
 /**
  * 如果浏览器支持 XMLHttpRequest，就使用 xhr 适配器
  * 如果不支持，就使用 http 适配器
- * @returns 
+ * @returns
  */
 const getDefaultAdapter = () => {
   let adapter;
   if (typeof XMLHttpRequest !== "undefined") {
     // 浏览器
-    adapter = require("../adapters/xhr");
+    adapter = xhrAdapter;
+
+    console.log(adapter);
   } else if (
     typeof process !== "undefined" &&
     Object.prototype.toString.call(process) === "[object process]"
   ) {
     // node.js
-    adapter = require("../adapters/http");
+    adapter = httpAdapter;
   }
   return adapter;
 };

@@ -10,12 +10,14 @@
       "@babel/plugin-transform-runtime",
       {
         "absoluteRuntime": false,
-        "corejs": 3,
+        "corejs": 2,
         "helpers": true,
         "regenerator": true,
         "useESModules": false
       }
     ]
+    // ["@quasar/babel-preset-app"]
   ],
-  "presets": [["@babel/preset-env"]]
+  "presets": [["@babel/preset-env"]],
+  "sourceType": "unambiguous"
 }

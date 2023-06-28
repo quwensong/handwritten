@@ -1,5 +1,58 @@
 import { isURLSearchParams, isDate, isPlainObject } from "./util";
 
+/**
+ * axios({
+  method: 'get',
+  url: '/base/get',
+  params: {
+    foo: ['bar', 'baz']
+  }
+})
+1.参数为数组，最终请求的URL是 => /base?foo[]=bar&foo[]=baz
+
+params: {
+  foo: {
+    bar: 'baz'
+  }
+}
+2.参数为对象，最终请求的URL是 => /base?foo=%7B%22:%22baz%22%7D
+
+params: {
+  date:new Date()
+}
+3.参数为日期，最终请求的URL是 => /base?date=2020-12-24T08:00:00.000z
+
+params: {
+  foo: '@:$, '
+}
+4.参数为特殊字符，最终请求的URL是 => /base?foo=@:$+（空格转换成+）
+
+params: {
+  foo: 'bar',
+  baz: null
+}
+5.参数为空值将忽略它，最终请求的URL是 => /base?foo=bar
+
+axios({
+  method: 'get',
+  url: '/base/get#hash',
+  params: {
+    foo: 'bar'
+  }
+})
+6.URL中包含hash值的，请求的时候将丢弃，最终请求的URL是 => /base?foo=bar
+
+axios({
+  method: 'get',
+  url: '/base/get?foo=bar',
+  params: {
+    bar: 'baz'
+  }
+})
+7.URL中已经包含参数的，请求的时候将拼接上去，最终请求的URL是 => /base?foo=bar&bar=baz
+
+ */
+
 export const encode = (val) => {
   return encodeURIComponent(val)
     .replace(/%40/g, "@")
