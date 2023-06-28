@@ -7,3 +7,16 @@ lint-staged ，可以在特定的 git 阶段执行特定的命令。
 prettier ，代码统一格式化。
 commitlint ， git commit message 规范。
 
+└──src
+    └──axios.js // 入口文件
+    └──core // 核心文件夹
+        └──Axios.js // 存放 Axios 类
+        └──dispatchRequest.js // 触发请求
+    └──adapters // 适配器文件夹，axios 可以适配 node 中的 http，浏览器中的 xhr
+        └──xhr.js // 浏览器 xhr 请求
+        └──http.js // node http 请求，目前暂未实现
+    └──helpers // 存放工具函数
+    	└──data.js // 转换数据相关函数
+    	└──headers.js // 处理 header 相关函数
+    	└──url.js // 处理 url 相关函数
+    	└──util.js // 通用工具函数
