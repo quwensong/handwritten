@@ -38,3 +38,14 @@
 	<%}%> 
 });
 
+(function(modules) {
+    var installedModules = {}
+    function __webpack_require__(moduleIid) {
+
+    }
+    return __webpack_require__(__webpack_require__.s = "./src/index.js")
+})({
+    "./src/index.js": (function(module, exports) {
+		eval("console.log('test webpack entry')");
+	})
+})

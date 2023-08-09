@@ -23,3 +23,47 @@ config.plugins.forEac
 compiler.hooks.entryOption.call();
 // 5.开始打包
 compiler.run()
+
+
+
+
+(function(modules) {
+  // modules传入的模块定义：{ moduleId: moduleFunc(module, exports) {} }
+  // 模块加载缓存
+    var installedModules = {};
+      // webpack 自定义的 require 函数，用来加载模块，最终导出加载的模块内容
+    function __webpack_require__(moduleId) {
+      // 检查缓存中是否存在需要加载的模块
+      // 存在就返回exports，exports 既是模块内容
+      if(installedModules[moduleId]) {
+        return installedModules[moduleId].exports;
+      }
+        // 新建一个模块，并存入缓存
+      var module = installedModules[moduleId] = {
+        i: moduleId,// 模块ID 也就是路径
+        l: false,// 是否已加载过
+        exports: {} // exports 对象，初始化为一个空对象
+      };
+        // 加载模块对应的函数 moduleFunc(module, exports) {}
+      modules[moduleId].call(
+        module.exports,// 初始化this为一个空对象，这就是模块具有自身作用域的实现
+        module, // 需要加载的模块
+        module.exports,// 模块的exports
+        __webpack_require__ // webpack的require方法，用来替换CommonJS的require
+      );
+      // 标注该模块已经加载
+      module.l = true;
+        // 返回模块的导出  module.exports 就是 modules[./src/main.js] 对应的函数。
+      return module.exports;
+    }
+      // 加载模块并返回模块内容
+    return __webpack_require__("<%=entryName%>");
+  })
+  ({
+    './src/index.js': (function(module,exports, __webpack_require__) {
+        eval("const main = __webpack_require__(/*! ./main.js */ \"./src/main.js\")\r\nconsole.log('test webpack entry')\r\n\n\n//# sourceURL=webpack:///./src/index.js?");
+    }), 
+    './src/main.js': (function(module, exports) {
+        eval("console.log('main module')\n\n//# sourceURL=webpack:///./src/main.js?");
+    })
+})

@@ -38,7 +38,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
   }
   isUsingMicroTask = true
 } else if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
-  timerFunc = () => {
+  timerFvnc = () => {
     setImmediate(flushCallbacks)
   }
 } else {

@@ -20,8 +20,8 @@ export function mountComponent(vm,el){
     vm._update(vm._render())
 
   }
-
-  new Watcher(vm, updateComponent,()=>{
+  vm.__patch__ = patch
+  vm._watcher = new Watcher(vm, updateComponent,()=>{
     callHook(vm,'beforeUpdate')
   },true)
   callHook(vm,'mounted')

@@ -9,5 +9,5 @@ export function compileToFunction(template) {
   // 模版引擎的实现原理 就是 with + new Function()
   const code = `with(this){return ${codegen(ast)}}`;
   const render = new Function(code);
-  return render
+  return 
 }

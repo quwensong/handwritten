@@ -13,7 +13,6 @@ export function createElement(vm,tag,attrs={},children){
     children.length = 0
   }
   // 如果是原始标签
-
   if(isReservedTag(tag)){
     return vnode(tag,attrs,children,undefined)
   }else{//如果是组件
@@ -37,6 +36,16 @@ function createComponent(vm,tag,attrs={},children,Ctor){
       const { Ctor } = vnode.componentOptions
       let child = vnode.componentInstance = new Ctor({_isComponent: true})
       child.$mount()
+
+      /**
+       *  Vue.prototype.$mount = function(el){
+            const vm = this;
+            let options = vm.$options
+            el = typeof el === 'string' ? document.querySelector(el) : el
+            vm.$el = el
+          ...
+          }
+       */
     },
     inserted(){
     }

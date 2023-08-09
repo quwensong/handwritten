@@ -7,6 +7,12 @@ export function patch(oldVnode,vnode){
     // 并且返回这个真实dom 
     //这样子组件的$el就有值了 哈哈哈
     // vm.$el = patch(vm.$el,vnode)
+
+    /** 
+     *  用虚拟节点创建真实节点替换掉 $el
+        vm.$el = patch(vm.$el,vnode)
+     */
+
     return createElm(vnode)
   }else{
     // NOTE 1、真实dom节点

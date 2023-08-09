@@ -17,7 +17,7 @@ class Store {
       Object.defineProperty(this.getters,key,{
         get:()=> this._vm[key]
       })
-    })
+    }) 
     // ======= state ===========
     // Vuex核心就是靠 Vue实例 
     this._vm =  new Vue({
